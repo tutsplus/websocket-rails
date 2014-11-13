@@ -1,0 +1,18 @@
+%h1 Products
+
+.row
+  %ul.list-unstyled
+    - @products.each do |product|
+      %li.col-md-3
+        %h2= link_to product.name, product
+        %p
+          =link_to product do
+            =image_tag product.image, height: 200
+        %p
+          = link_to 'Edit', edit_product_path(product)
+          |
+          = link_to 'Destroy', product, :method => :delete, :data => { :confirm => 'Are you sure?' }
+
+.row
+  %p
+    = link_to 'New Product', new_product_path, class: "btn btn-primary"
