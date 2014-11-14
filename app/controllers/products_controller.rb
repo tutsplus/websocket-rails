@@ -21,7 +21,7 @@ class ProductsController < ApplicationController
   end
 
   def create
-    @product = Product.new(product_params)
+    @product = Product.new(product_params.merge! user_id: current_user.id)
     @product.save
     respond_with(@product)
   end
