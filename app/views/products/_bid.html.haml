@@ -1,9 +1,37 @@
-=form_for [ @product, @product.auction, Bid.new ] do |f|
-  %p
-    %strong
-      Current bid:
-      =@product.auction.current_bid
+-if @product.has_auction?
+  -if @product.auction.ended?
+    =render "auctions/status"
 
-  %p
-    =f.text_field :value
-    =f.button
+  -else
+    =form_for [ @product, @product.auction, Bid.new ] do |f|
+      %p
+        %strong
+          -if @product.auction.top_bid.present?
+            -if @product.auction.top_bid.user_id == current_user.id
+              Current bid:
+            -else
+              You were outbid:
+          -else
+            Current bid:
+
+          =@product.auction.current_bid
+      %p
+        Ends at: #{l(@product.auction.ends_at, format: :short)}
+
+      %p
+        =f.text_field :value
+        =f.button class: "btn btn-primary"
+
+  :javascript
+
+    $(function() {
+      var user_id = "#{current_user.id}";
+      var auction_id = "#{@product.auction.id}";
+      var form = $("#new_bid");
+
+      var auctionSocket = new AuctionSocket(
+        user_id,
+        auction_id,
+        form
+      );
+    });
