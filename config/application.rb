@@ -1,4 +1,5 @@
 require File.expand_path('../boot', __FILE__)
+require File.expand_path('../../lib/auction_socket', __FILE__)
 
 require 'rails/all'
 
@@ -21,5 +22,6 @@ module Awections
     # config.i18n.default_locale = :de
 
     config.sass.preferred_syntax = :sass
+    config.middleware.use AuctionSocket
   end
 end
