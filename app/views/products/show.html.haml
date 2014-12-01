@@ -3,7 +3,7 @@
     %h1= @product.name
 
     %p
-      = image_tag @product.image
+      = image_tag @product.image, height: 100
 
     %p
       = link_to 'Edit', edit_product_path(@product)
